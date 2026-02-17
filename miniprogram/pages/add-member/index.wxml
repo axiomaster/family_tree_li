@@ -1,0 +1,10 @@
+
+<view class="container" style="padding-top: {{statusBarHeight + 44}}px;">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="back-btn" bindtap="onBack">
+      <text>❮ 返回</text>
+    </view>
+    <text class="title">添加人丁</text>
+  </view>
+  <text>添加人丁 - 开发中</text>
+</view>

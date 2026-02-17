@@ -1,0 +1,45 @@
+<view class="node-container">
+  <!-- Current Node -->
+  <!-- Current Node & Wife -->
+  <view class="node-content">
+    <view class="couple-container">
+      <!-- Husband/Main Node -->
+      <view class="person-group" bindtap="onTap">
+        <!-- Avatar -->
+        <view class="avatar {{node.relation === '始祖' ? 'avatar-founder' : (node.gender === '女' ? 'avatar-female' : 'avatar-member')}}">
+          <text class="avatar-text">{{node.name[node.name.length - 1]}}</text>
+        </view>
+        
+        <!-- Label -->
+        <view class="node-label">
+          <text class="name-text">{{node.name}}</text>
+        </view>
+      </view>
+
+      <!-- Wife Node (if exists) -->
+      <view class="person-group wife-group" wx:if="{{node.wife}}" catchtap="onWifeTap">
+        <view class="avatar avatar-wife">
+          <text class="avatar-text">{{node.wife.name[node.wife.name.length - 1]}}</text>
+        </view>
+        <view class="node-label">
+          <text class="name-text">{{node.wife.name}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- Connecting line to children (vertical) -->
+    <view class="line-down" wx:if="{{node.children && node.children.length > 0}}"></view>
+  </view>
+
+  <!-- Children -->
+  <view class="children-container" wx:if="{{node.children && node.children.length > 0}}">
+    <!-- Horizontal line connecting children handled by pseudo-elements -->
+    
+    <block wx:for="{{node.children}}" wx:key="id">
+      <view class="child-wrapper">
+         <view class="line-up"></view>
+         <tree-node node="{{item}}" targetId="{{targetId}}" bind:foundTarget="onFoundTarget"></tree-node>
+      </view>
+    </block>
+  </view>
+</view>

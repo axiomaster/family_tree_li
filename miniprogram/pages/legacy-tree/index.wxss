@@ -1,0 +1,109 @@
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-color: #f8fafc;
+}
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 88rpx;
+  background: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  box-shadow: 0 4rpx 10rpx rgba(0,0,0,0.3);
+}
+
+.back-btn {
+  position: absolute;
+  left: 30rpx;
+  bottom: 0;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  color: #fbbf24;
+  font-size: 32rpx;
+  font-weight: bold;
+  z-index: 101;
+}
+
+.title {
+  color: #fbbf24;
+  font-size: 36rpx;
+  font-weight: bold;
+  letter-spacing: 4rpx;
+}
+
+/* Content container */
+.content-scroll {
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.content-wrapper {
+  padding: 40rpx 30rpx;
+  padding-bottom: 100rpx;
+}
+
+/* Typography */
+.preface-title {
+  font-size: 48rpx; /* Enlarged title */
+  font-weight: bold;
+  text-align: center;
+  margin: 30rpx 0;
+  color: #1e293b;
+  letter-spacing: 4rpx;
+}
+
+.preface-author {
+  font-size: 32rpx;
+  text-align: right; /* Right aligned */
+  width: 100%;
+  margin-bottom: 50rpx;
+  color: #475569;
+  font-weight: 500;
+  box-sizing: border-box;
+  padding-right: 20rpx;
+}
+
+.preface-paragraph {
+  font-size: 34rpx; /* Readable body text */
+  line-height: 1.8;
+  text-indent: 2em; /* 2-character indent */
+  margin-bottom: 30rpx; /* Spacing between paragraphs */
+  color: #334155;
+  text-align: justify;
+}
+
+.preface-section-title {
+  font-size: 34rpx;
+  font-weight: bold;
+  text-indent: 0;
+  margin-bottom: 20rpx;
+  color: #1e293b;
+  margin-top: 40rpx; /* Extra space before section */
+}
+
+/* Image Grid */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16rpx;
+  margin-bottom: 40rpx;
+}
+
+.grid-image {
+  width: 100%;
+  height: 280rpx;
+  border-radius: 8rpx;
+  background-color: #e2e8f0;
+  box-shadow: 0 2rpx 4rpx rgba(0,0,0,0.1);
+}

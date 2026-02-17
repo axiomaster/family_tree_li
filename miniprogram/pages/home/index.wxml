@@ -1,0 +1,25 @@
+
+<view class="container" style="padding-top: {{statusBarHeight}}px;">
+  <view class="banner-container">
+    <image class="banner-image" src="{{bannerImage}}" mode="widthFix"></image>
+  </view>
+
+  <!-- Navigation Buttons -->
+  <view class="nav-grid">
+    <view class="nav-item" bindtap="navToTree">
+      <text class="nav-text">查看家谱</text>
+    </view>
+
+    <view class="nav-item" bindtap="navToLegacy">
+      <text class="nav-text">一九九三版家谱</text>
+    </view>
+
+    <view class="nav-item" bindtap="navToInstruction">
+      <text class="nav-text">二零二六版家谱</text>
+    </view>
+
+    <view class="nav-item" bindtap="navToAddMember">
+      <text class="nav-text">添加人丁</text>
+    </view>
+  </view>
+</view>

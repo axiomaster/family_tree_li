@@ -1,0 +1,183 @@
+import React, { useState, useEffect } from 'react';
+import { User, X, ZoomIn, ZoomOut, Move } from 'lucide-react';
+
+const App = () => {
+  // 模拟家族数据
+  const initialData = {
+    id: "1",
+    name: "王启明",
+    relation: "始祖",
+    birth: "1920",
+    death: "1995",
+    bio: "家族创始人，曾在当地创办私塾，德高望重。",
+    image: "", // 为空则显示文字头像
+    children: [
+      {
+        id: "2",
+        name: "王建国",
+        relation: "长子",
+        birth: "1945",
+        bio: "退休教师，喜爱书法。",
+        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop",
+        children: [
+          { id: "4", name: "王小明", relation: "孙子", birth: "1975", bio: "现居上海，从事建筑设计。" },
+          { id: "5", name: "王小红", relation: "孙女", birth: "1978", bio: "医生，热衷公益。" }
+        ]
+      },
+      {
+        id: "3",
+        name: "王建军",
+        relation: "次子",
+        birth: "1950",
+        bio: "退伍军人，经营一家老字号餐馆。",
+        children: [
+          { id: "6", name: "王伟", relation: "孙子", birth: "1982", bio: "IT工程师。" }
+        ]
+      }
+    ]
+  };
+
+  const [selectedMember, setSelectedMember] = useState(null);
+  const [zoom, setZoom] = useState(1);
+
+  // 递归渲染树节点
+  const renderTree = (member) => {
+    const hasImage = member.image && member.image.length > 0;
+    const displayName = member.name.length > 1 ? member.name.slice(-2) : member.name;
+
+    return (
+      <div key={member.id} className="flex flex-col items-center">
+        <div 
+          className="relative flex flex-col items-center group cursor-pointer"
+          onClick={() => setSelectedMember(member)}
+        >
+          {/* 连接线 - 上 */}
+          <div className="w-0.5 h-6 bg-slate-300"></div>
+          
+          {/* 头像容器 */}
+          <div className={`
+            w-16 h-16 rounded-full border-4 border-white shadow-lg overflow-hidden flex items-center justify-center transition-transform active:scale-90
+            ${hasImage ? 'bg-gray-200' : 'bg-amber-600'}
+          `}>
+            {hasImage ? (
+              <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+            ) : (
+              <span className="text-white font-bold text-lg">{displayName}</span>
+            )}
+          </div>
+
+          {/* 简易名称展示 */}
+          <div className="mt-2 bg-white px-3 py-1 rounded-full shadow-sm border border-slate-100">
+            <p className="text-xs font-bold text-slate-800">{member.name}</p>
+          </div>
+        </div>
+
+        {/* 子节点 */}
+        {member.children && member.children.length > 0 && (
+          <div className="flex flex-col items-center">
+            {/* 连接线 - 中 */}
+            <div className="w-0.5 h-6 bg-slate-300"></div>
+            <div className="flex flex-row items-start space-x-4 relative">
+              {/* 横向跨度线 */}
+              {member.children.length > 1 && (
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[calc(100%-4rem)] h-0.5 bg-slate-300"></div>
+              )}
+              {member.children.map(child => renderTree(child))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 overflow-hidden relative">
+      {/* 顶部标题栏 */}
+      <header className="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md z-10 p-4 border-b border-slate-200 flex justify-between items-center">
+        <h1 className="text-xl font-bold text-amber-800">家族谱系统</h1>
+        <div className="flex space-x-2">
+           <button onClick={() => setZoom(prev => Math.max(0.5, prev - 0.1))} className="p-2 bg-slate-100 rounded-full"><ZoomOut size={18}/></button>
+           <button onClick={() => setZoom(prev => Math.min(1.5, prev + 0.1))} className="p-2 bg-slate-100 rounded-full"><ZoomIn size={18}/></button>
+        </div>
+      </header>
+
+      {/* 主画布 - 支持滚动 */}
+      <main className="pt-20 pb-10 overflow-auto h-screen w-full">
+        <div 
+          className="min-w-max p-10 flex justify-center transition-transform duration-200"
+          style={{ transform: `scale(${zoom})`, transformOrigin: 'top center' }}
+        >
+          {renderTree(initialData)}
+        </div>
+      </main>
+
+      {/* 底部提示 */}
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black/50 text-white px-4 py-2 rounded-full text-sm backdrop-blur-sm pointer-events-none flex items-center space-x-2">
+        <Move size={14} />
+        <span>左右滑动查看完整家谱，点击头像看详情</span>
+      </div>
+
+      {/* 成员详情弹窗 */}
+      {selectedMember && (
+        <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center bg-black/40 backdrop-blur-sm p-0 sm:p-4 animate-in fade-in duration-200">
+          <div className="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300">
+            <div className="relative h-32 bg-amber-700">
+              <button 
+                onClick={() => setSelectedMember(null)}
+                className="absolute top-4 right-4 bg-black/20 text-white p-2 rounded-full hover:bg-black/40 transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            
+            <div className="px-6 pb-10 relative">
+              {/* 弹窗头像 */}
+              <div className="absolute -top-12 left-6">
+                <div className={`w-24 h-24 rounded-2xl border-4 border-white shadow-lg overflow-hidden flex items-center justify-center ${selectedMember.image ? 'bg-gray-100' : 'bg-amber-600'}`}>
+                  {selectedMember.image ? (
+                    <img src={selectedMember.image} className="w-full h-full object-cover" />
+                  ) : (
+                    <span className="text-white text-3xl font-bold">{selectedMember.name.slice(-1)}</span>
+                  )}
+                </div>
+              </div>
+
+              <div className="pt-14">
+                <div className="flex items-center space-x-2">
+                  <h2 className="text-2xl font-bold text-slate-800">{selectedMember.name}</h2>
+                  <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs rounded-md font-medium">{selectedMember.relation}</span>
+                </div>
+                
+                <div className="mt-4 grid grid-cols-2 gap-4">
+                  <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <p className="text-xs text-slate-400 uppercase tracking-wider">出生年份</p>
+                    <p className="text-slate-700 font-semibold">{selectedMember.birth || '未知'}</p>
+                  </div>
+                  <div className="bg-slate-50 p-3 rounded-xl border border-slate-100">
+                    <p className="text-xs text-slate-400 uppercase tracking-wider">离世年份</p>
+                    <p className="text-slate-700 font-semibold">{selectedMember.death || '健在'}</p>
+                  </div>
+                </div>
+
+                <div className="mt-6">
+                  <p className="text-xs text-slate-400 uppercase tracking-wider mb-2">生平简介</p>
+                  <p className="text-slate-600 leading-relaxed text-sm italic">
+                    {selectedMember.bio || "暂无该成员的详细介绍资料。"}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 隐藏的线条基础样式 (CSS-in-JS 难以完全处理的复杂递归线由 div 逻辑替代，这里补充全局样式) */}
+      <style dangerouslySetInnerHTML={{ __html: `
+        .flex-row > div:first-child > div:first-child::before { display: none; }
+        .flex-row > div:last-child > div:first-child::before { display: none; }
+      `}} />
+    </div>
+  );
+};
+
+export default App;

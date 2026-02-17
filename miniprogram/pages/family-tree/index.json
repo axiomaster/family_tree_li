@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "tree-node": "/components/tree-node/index"
+  },
+  "navigationBarTitleText": "李门家谱",
+  "navigationStyle": "custom"
+}

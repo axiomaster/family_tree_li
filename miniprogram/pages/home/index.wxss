@@ -1,0 +1,73 @@
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f8fafc;
+}
+
+.banner-container {
+  width: 100%;
+  min-height: 40vh; /* changed to min-height just in case */
+  /* background-color: #1e293b; REMOVED */
+  display: flex;
+  align-items: flex-start; /* Align top */
+  justify-content: center;
+  position: relative;
+  overflow: visible; /* changed to visible to let it flow naturally? or hidden? user said "images from status bar down... fully cover bottom blue placeholder" */
+           /* If visual blue placeholder is the background, removing it is key. */
+  overflow: hidden; 
+}
+
+.banner-image {
+  width: 100%;
+  height: auto;
+}
+
+.banner-placeholder {
+  color: #fbbf24;
+  font-size: 48px;
+  font-weight: bold;
+  letter-spacing: 4px;
+}
+
+.nav-grid {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 30px;
+}
+
+.nav-item {
+  width: 85%; /* WIDER as requested to prevent wrapping */
+  height: 60px;
+  background: #1e293b; /* Dark Blue Theme */
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: row; 
+  align-items: center;
+  justify-content: center; /* Center text */
+  padding: 0 20px; 
+  transition: transform 0.1s;
+  border: 1px solid #334155;
+}
+
+.nav-item:active {
+  transform: scale(0.98);
+  background-color: #0f172a; /* Darker on press */
+}
+
+/* Icons removed as requested */
+
+.nav-text {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fbbf24; /* Gold Text */
+  white-space: nowrap; 
+  overflow: hidden;
+  text-overflow: ellipsis;
+  letter-spacing: 2px;
+}

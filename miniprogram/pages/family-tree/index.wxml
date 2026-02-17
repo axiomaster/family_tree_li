@@ -1,0 +1,92 @@
+<!--family-tree/index.wxml-->
+<view class="container">
+  <!-- 顶部标题栏 -->
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="back-btn" bindtap="onBack">
+      <text>❮ 返回</text>
+    </view>
+    <text class="title">李门家谱</text>
+  </view>
+
+  <!-- 画布容器 - 改为可移动视图 -->
+  <movable-area class="canvas-container">
+    <movable-view 
+      class="tree-container" 
+      direction="all" 
+      scale="true" 
+      min-scale="0.3" 
+      max-scale="3.0" 
+      scale-value="{{scale}}"
+      x="{{offsetX}}"
+      y="{{offsetY}}"
+      out-of-bounds="true"
+      damping="40"
+      friction="2"
+      style="width: {{containerWidth}}rpx; height: {{containerHeight}}rpx;"
+    >
+      <tree-node 
+        wx:if="{{familyData}}" 
+        node="{{familyData}}" 
+        targetId="{{targetId}}" 
+        bind:nodeTap="onNodeTap"
+        bind:foundTarget="onFoundTarget"
+      ></tree-node>
+    </movable-view>
+  </movable-area>
+
+  <!-- 底部提示 -->
+  <view class="bottom-tip">
+    <text>左右滑动查看完整家谱，点击头像看详情</text>
+  </view>
+
+  <!-- 成员详情弹窗 -->
+  <view class="modal-mask" wx:if="{{selectedMember}}" bindtap="onCloseModal">
+    <view class="modal-content" catchtap="stopPropagation">
+      <view class="modal-header">
+        <button class="close-btn" bindtap="onCloseModal">×</button>
+      </view>
+
+      <view class="modal-body">
+        <!-- 头像 -->
+        <view class="avatar-container">
+          <view class="avatar {{selectedMember.relation === '始祖' ? 'avatar-founder' : 'avatar-member'}}">
+            <text class="avatar-text">{{selectedMember.lastChar}}</text>
+          </view>
+        </view>
+
+        <!-- 基本信息 -->
+        <view class="member-info">
+          <view class="name-row">
+            <text class="name">{{selectedMember.name}}</text>
+            <text class="relation-tag">{{selectedMember.relation}}</text>
+          </view>
+
+          <view class="info-grid">
+            <view class="info-item">
+              <text class="info-label">性别</text>
+              <text class="info-value">{{selectedMember.gender || '未知'}}</text>
+            </view>
+            <view class="info-item">
+              <text class="info-label">出生年份</text>
+              <text class="info-value">{{selectedMember.birth || '未知'}}</text>
+            </view>
+            <view class="info-item">
+              <text class="info-label">离世年份</text>
+              <text class="info-value">{{selectedMember.death || '健在'}}</text>
+            </view>
+          </view>
+
+          <view class="bio-section">
+            <text class="bio-label">生平简介</text>
+            <text class="bio-text">{{selectedMember.bio || '暂无该成员的详细介绍资料。'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 加载提示 -->
+  <view class="loading-mask" wx:if="{{loading}}">
+    <text class="loading-text">加载中...</text>
+  </view>
+</view>
