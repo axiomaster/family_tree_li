@@ -6,7 +6,12 @@ Component({
         },
         targetId: {
             type: String,
-            value: ''
+            value: '',
+            observer: function (newVal) {
+                if (this.data.node && newVal && this.data.node.id === newVal) {
+                    this.measureAndNotify();
+                }
+            }
         }
     },
 

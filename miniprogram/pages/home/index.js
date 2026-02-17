@@ -14,13 +14,22 @@ Page({
 
         // Get Cloud Image URL
         wx.cloud.getTempFileURL({
+            config: {
+                env: 'cloud1-1guizlx0ef2ca2ab'
+            },
             fileList: ['cloud://cloud1-1guizlx0ef2ca2ab.636c-cloud1-1guizlx0ef2ca2ab-1405026009/family_tree/bg.png'],
             success: res => {
-                // If the status is not 0, it means failure usually, but we check tempFileURL
-                if (res.fileList && res.fileList[0].tempFileURL) {
+                // Check if we have a valid file result
+                const fileResult = res.fileList && res.fileList[0];
+
+                if (fileResult && fileResult.status === 0 && fileResult.tempFileURL) {
+                    console.log('Banner URL fetched successfully:', fileResult.tempFileURL);
                     this.setData({
-                        bannerImage: res.fileList[0].tempFileURL
+                        bannerImage: fileResult.tempFileURL
                     });
+                } else {
+                    // Log the specific error for the file
+                    console.error('Failed to get banner URL. Details:', JSON.stringify(fileResult));
                 }
             },
             fail: err => {

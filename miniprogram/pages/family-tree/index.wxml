@@ -8,8 +8,14 @@
     <text class="title">李门家谱</text>
   </view>
 
+  <!-- Search Bar -->
+  <view class="search-bar" style="top: {{statusBarHeight + 44}}px;">
+    <input class="search-input" placeholder="输入姓名查找" bindinput="onSearchInput" value="{{searchQuery}}" confirm-type="search" bindconfirm="onSearch" />
+    <view class="search-btn" bindtap="onSearch">搜索</view>
+  </view>
+
   <!-- 画布容器 - 改为可移动视图 -->
-  <movable-area class="canvas-container">
+  <movable-area class="canvas-container" bindwheel="onWheel">
     <movable-view 
       class="tree-container" 
       direction="all" 

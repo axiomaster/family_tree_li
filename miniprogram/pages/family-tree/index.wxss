@@ -211,6 +211,42 @@
     color: #fbbf24; 
 }
 
+/* Search Bar */
+.search-bar {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600rpx;
+  height: 80rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 40rpx;
+  display: flex;
+  align-items: center;
+  padding: 0 10rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+  z-index: 90; /* Below modal mask (100) but above tree */
+}
+
+.search-input {
+  flex: 1;
+  height: 100%;
+  padding: 0 30rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.search-btn {
+  width: 120rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  background: #1a4f8b; /* Match theme blue */
+  color: #d4af37; /* Match theme gold */
+  font-size: 26rpx;
+  border-radius: 30rpx;
+  margin-right: 10rpx;
+}
+
 .member-info {
   padding-top: 8px;
 }

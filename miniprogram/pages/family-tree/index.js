@@ -10,7 +10,9 @@ Page({
     offsetX: 0,
     offsetY: 0,
     containerWidth: 10000,
-    containerHeight: 10000
+    containerHeight: 10000,
+    searchQuery: '',
+    targetId: ''
   },
 
   onLoad(options) {
@@ -156,11 +158,115 @@ Page({
   // 缩小
   onZoomOut() {
     this.setData({
-      scale: Math.max(this.data.scale - 0.1, 0.5)
+      scale: Math.max(this.data.scale - 0.1, 0.3) // Match min-scale in wxml
     });
   },
 
-  // 处理节点点击
+  // 鼠标滚轮缩放 (PC端)
+  onWheel(e) {
+    // e.detail.deltaY > 0 means scroll down (zoom out), < 0 means scroll up (zoom in)
+    // Adjust sensitivity as needed
+    const delta = e.detail.deltaY;
+    const zoomStep = 0.1;
+    let newScale = this.data.scale;
+
+    if (delta < 0) {
+      newScale = Math.min(newScale + zoomStep, 3.0);
+    } else {
+      newScale = Math.max(newScale - zoomStep, 0.3);
+    }
+
+    this.setData({
+      scale: newScale
+    });
+  },
+
+  // 搜索框输入
+  onSearchInput(e) {
+    this.setData({
+      searchQuery: e.detail.value
+    });
+  },
+
+  // 执行搜索
+  onSearch() {
+    const query = this.data.searchQuery ? this.data.searchQuery.trim() : '';
+    if (!query) {
+      wx.showToast({ title: '请输入姓名', icon: 'none' });
+      return;
+    }
+
+    console.log('[FamilyTree] Searching for:', query);
+
+    // Reset targetID first to ensure observer triggers even if searching same person twice
+    this.setData({ targetId: '' }, () => {
+      const targetNode = this.findNodeByName(this.data.familyData, query);
+      if (targetNode) {
+        console.log('[FamilyTree] Found node:', targetNode);
+        this.setData({
+          targetId: targetNode.id
+        });
+        wx.showLoading({ title: '定位中...', mask: true });
+      } else {
+        wx.showToast({ title: '未找到该成员', icon: 'none' });
+      }
+    });
+  },
+
+  // 递归查找节点
+  findNodeByName(node, name) {
+    if (!node) return null;
+    if (node.name === name) return node;
+
+    // Also check wife
+    if (node.wife && node.wife.name === name) return node; // Return husband node for wife
+
+    if (node.children) {
+      for (const child of node.children) {
+        const res = this.findNodeByName(child, name);
+        if (res) return res;
+      }
+    }
+    return null;
+  },
+
+  // Handle target node found event
+  onFoundTarget(e) {
+    console.log("[FamilyTree] Target found, centering view.", e.detail);
+    wx.hideLoading();
+
+    // Calculate position to center the node
+    const rect = e.detail; // {left, top, width, height} relative to viewport? 
+    // No, createSelectorQuery inside movable-view might return position relative to movable-view or viewport depending on execution.
+    // Generally boundingClientRect returns relative to viewport (window).
+
+    const sysInfo = wx.getSystemInfoSync();
+    const windowWidth = sysInfo.windowWidth;
+    const windowHeight = sysInfo.windowHeight;
+    const centerX = windowWidth / 2;
+    const centerY = windowHeight / 2;
+
+    // Current Movable View Position
+    const currentX = this.data.offsetX;
+    const currentY = this.data.offsetY;
+    const currentScale = this.data.scale;
+
+    // The rect is likely relative to the VIEWPORT because `boundingClientRect` usually is.
+    // However, the node is inside a scaled movable-view.
+    // If the node is at screen (rect.left, rect.top), and we want it at (centerX, centerY).
+    // We need to move the movable-view by (centerX - rect.left - rect.width/2, centerY - rect.top - rect.height/2).
+
+    // Calculate the difference needed
+    const diffX = centerX - (rect.left + rect.width / 2);
+    const diffY = centerY - (rect.top + rect.height / 2);
+
+    this.setData({
+      offsetX: currentX + diffX,
+      offsetY: currentY + diffY,
+      // Optional: highlight or zoom
+      selectedMember: this.findNodeByName(this.data.familyData, this.data.searchQuery) // Auto-show detail? Maybe distracting. Let's start with just move.
+    });
+  },
   onNodeTap(e) {
     console.log("Node tapped:", e.detail.node);
     const node = e.detail.node;
