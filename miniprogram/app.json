@@ -5,6 +5,7 @@
     "pages/legacy-tree/index",
     "pages/instruction/index",
     "pages/add-member/index",
+    "pages/history/index",
     "pages/index/index",
     "pages/example/index"
   ],

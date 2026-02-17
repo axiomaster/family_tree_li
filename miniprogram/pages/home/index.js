@@ -56,6 +56,12 @@ Page({
         });
     },
 
+    navToHistory() {
+      wx.navigateTo({
+          url: '/pages/history/index'
+      });
+    },
+
     navToAddMember() {
         wx.navigateTo({
             url: '/pages/add-member/index'

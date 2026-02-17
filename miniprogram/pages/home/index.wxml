@@ -18,8 +18,12 @@
       <text class="nav-text">二零二六版家谱</text>
     </view>
 
+    <view class="nav-item" bindtap="navToHistory">
+      <text class="nav-text">李氏家族三百年</text>
+    </view>
+
     <view class="nav-item" bindtap="navToAddMember">
-      <text class="nav-text">添加人丁</text>
+      <text class="nav-text">编纂校正</text>
     </view>
   </view>
 </view>
