@@ -625,7 +625,7 @@ const familyList = [
   {
     id: "1112133",
     pid: "111213",
-    name: "李援华",
+    name: "李振华",
     relation: "xxxx",
     birth: "xxxx",
     death: "",
@@ -1287,7 +1287,7 @@ const familyList = [
     bio: "",
     gender: "男",
     wife: {
-      name: "李亚茹",
+      name: "王亚茹",
       birth: "",
       death: "",
     }
@@ -1467,6 +1467,11 @@ const familyList = [
     death: "",
     bio: "",
     gender: "男",
+    wife: {
+      name: "郭晓娟",
+      birth: "",
+      death: "",
+    }
   },
   {
     id: "111213312",
