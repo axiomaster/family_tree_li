@@ -34,10 +34,10 @@ const familyList = [
     id: "4",
     pid: null,
     name: "李崇祯",
-    relation: "xx",
+    relation: "结义老四",
     birth: "xxxx",
     death: "xxxx",
-    bio: "xx",
+    bio: "结义老四",
     gender: "男",
   },
   {

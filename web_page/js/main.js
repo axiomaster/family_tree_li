@@ -402,3 +402,30 @@
         init();
     }
 })();
+
+/**
+ * Image preview function for 1993 edition
+ */
+function previewImage(src) {
+    // Create modal
+    const modal = document.createElement('div');
+    modal.className = 'image-preview-modal';
+    modal.onclick = () => modal.remove();
+
+    // Create image
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = '家谱图片预览';
+
+    modal.appendChild(img);
+    document.body.appendChild(modal);
+
+    // Close on Escape key
+    const handleKeydown = (e) => {
+        if (e.key === 'Escape') {
+            modal.remove();
+            document.removeEventListener('keydown', handleKeydown);
+        }
+    };
+    document.addEventListener('keydown', handleKeydown);
+}
