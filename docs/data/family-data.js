@@ -1286,6 +1286,11 @@ const familyList = [
     death: "",
     bio: "",
     gender: "男",
+    wife: {
+      name: "李亚茹",
+      birth: "",
+      death: "",
+    }
   },
   {
     id: "11121332",
@@ -1296,6 +1301,11 @@ const familyList = [
     death: "",
     bio: "",
     gender: "男",
+    wife: {
+      name: "刘艳",
+      birth: "",
+      death: "",
+    }
   },
   {
     id: "11121341",
