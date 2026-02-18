@@ -2601,7 +2601,7 @@ const familyList = [
   },
 ];
 
-// Make available globally for browser
+// Make available globally for web browser
 if (typeof window !== 'undefined') {
     window.familyList = familyList;
 }
