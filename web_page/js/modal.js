@@ -109,6 +109,9 @@ const Modal = {
         if (node.relation === '老屋' || node.relation === '二屋' || node.relation === '三屋' || node.relation === '结义老四') {
             return 'avatar-founder';
         }
+        if (node.relation === '配偶') {
+            return 'avatar-wife';
+        }
         if (node.gender === '女') {
             return 'avatar-female';
         }

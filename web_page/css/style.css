@@ -665,6 +665,10 @@ html, body {
     background: linear-gradient(135deg, #f472b6, #db2777);
 }
 
+.avatar-wife {
+    background: linear-gradient(135deg, #a78bfa, #7c3aed);
+}
+
 .avatar-text {
     color: white;
     font-size: 28px;
@@ -689,6 +693,35 @@ html, body {
     font-size: 12px;
     font-weight: bold;
     color: #0f172a;
+}
+
+/* Couple container for husband and wife */
+.couple-container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0;
+}
+
+.person-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.1s;
+}
+
+.person-group:hover {
+    transform: scale(1.05);
+}
+
+.person-group:active {
+    transform: scale(0.95);
+}
+
+.wife-group {
+    margin-left: 4px;
 }
 
 .children-container {

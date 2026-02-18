@@ -43,6 +43,14 @@ const TreeRenderer = {
         const nodeContent = document.createElement('div');
         nodeContent.className = 'node-content';
 
+        // Create couple container to hold husband and wife
+        const coupleContainer = document.createElement('div');
+        coupleContainer.className = 'couple-container';
+
+        // Create husband/main person group
+        const personGroup = document.createElement('div');
+        personGroup.className = 'person-group';
+
         // Determine avatar class based on gender and relation
         let avatarClass = 'avatar';
         if (node.relation === '老屋' || node.relation === '二屋' || node.relation === '三屋' || node.relation === '结义老四') {
@@ -71,17 +79,67 @@ const TreeRenderer = {
         nameText.textContent = node.name;
         label.appendChild(nameText);
 
-        // Assemble node content
-        nodeContent.appendChild(avatar);
-        nodeContent.appendChild(label);
+        // Assemble person group
+        personGroup.appendChild(avatar);
+        personGroup.appendChild(label);
 
-        // Add click handler
-        nodeContent.addEventListener('click', (e) => {
+        // Add click handler for main person
+        personGroup.addEventListener('click', (e) => {
             e.stopPropagation();
             if (onNodeClick) {
                 onNodeClick(node);
             }
         });
+
+        coupleContainer.appendChild(personGroup);
+
+        // Create wife node if exists
+        if (node.wife) {
+            const wifeGroup = document.createElement('div');
+            wifeGroup.className = 'person-group wife-group';
+
+            // Create wife avatar (purple/violet color)
+            const wifeAvatar = document.createElement('div');
+            wifeAvatar.className = 'avatar avatar-wife';
+
+            const wifeAvatarText = document.createElement('span');
+            wifeAvatarText.className = 'avatar-text';
+            wifeAvatarText.textContent = node.wife.name.slice(-1);
+            wifeAvatar.appendChild(wifeAvatarText);
+
+            // Create wife label
+            const wifeLabel = document.createElement('div');
+            wifeLabel.className = 'node-label';
+
+            const wifeNameText = document.createElement('span');
+            wifeNameText.className = 'name-text';
+            wifeNameText.textContent = node.wife.name;
+            wifeLabel.appendChild(wifeNameText);
+
+            // Assemble wife group
+            wifeGroup.appendChild(wifeAvatar);
+            wifeGroup.appendChild(wifeLabel);
+
+            // Add click handler for wife
+            wifeGroup.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (onNodeClick) {
+                    // Create a node-like object for wife
+                    const wifeNode = {
+                        ...node.wife,
+                        id: node.id + '_wife',
+                        gender: '女',
+                        relation: '配偶'
+                    };
+                    onNodeClick(wifeNode);
+                }
+            });
+
+            coupleContainer.appendChild(wifeGroup);
+        }
+
+        // Assemble node content
+        nodeContent.appendChild(coupleContainer);
 
         container.appendChild(nodeContent);
 
