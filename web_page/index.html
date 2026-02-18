@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>李门家谱</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="title">李门家谱</h1>
+            <div class="zoom-controls">
+                <button class="zoom-btn" id="zoomOut">−</button>
+                <button class="zoom-btn" id="zoomIn">+</button>
+            </div>
+        </header>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="输入姓名查找">
+            <button class="search-btn" id="searchBtn">搜索</button>
+        </div>
+
+        <!-- Tree Container -->
+        <div class="canvas-container" id="canvasContainer">
+            <div class="tree-container" id="treeContainer">
+                <!-- Tree nodes will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Bottom Tip -->
+        <div class="bottom-tip">
+            <span>拖拽平移，滚轮缩放，点击头像查看详情</span>
+        </div>
+
+        <!-- Member Detail Modal -->
+        <div class="modal-mask" id="modalMask">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close-btn" id="closeModal">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="avatar-container">
+                        <div class="avatar" id="modalAvatar">
+                            <span class="avatar-text" id="modalAvatarText"></span>
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <div class="name-row">
+                            <span class="name" id="modalName"></span>
+                            <span class="relation-tag" id="modalRelation"></span>
+                        </div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">性别</span>
+                                <span class="info-value" id="modalGender"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">出生年份</span>
+                                <span class="info-value" id="modalBirth"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">离世年份</span>
+                                <span class="info-value" id="modalDeath"></span>
+                            </div>
+                        </div>
+                        <div class="bio-section">
+                            <span class="bio-label">生平简介</span>
+                            <p class="bio-text" id="modalBio"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Mask -->
+        <div class="loading-mask" id="loadingMask">
+            <span class="loading-text">加载中...</span>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/tree.js"></script>
+    <script src="js/modal.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
