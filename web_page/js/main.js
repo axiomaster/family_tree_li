@@ -6,8 +6,8 @@
     // State
     let treeData = null;
     let scale = 0.6;
-    let offsetX = -500;
-    let offsetY = -300;
+    let offsetX = 0;
+    let offsetY = 0;
     let isDragging = false;
     let lastX = 0;
     let lastY = 0;
@@ -101,11 +101,31 @@
         // Render tree
         TreeRenderer.renderTree(treeData, treeContent, onNodeClick);
 
-        // Apply initial transform
-        updateTransform();
+        // Center the tree after rendering
+        centerTree();
 
         // Hide loading
         hideLoading();
+    }
+
+    /**
+     * Center the tree in the container
+     */
+    function centerTree() {
+        if (!treeContent || !treeContainer) return;
+
+        // Get dimensions
+        const containerRect = treeContainer.getBoundingClientRect();
+        const treeRect = treeContent.getBoundingClientRect();
+
+        // Calculate center offset
+        const treeWidth = treeRect.width / scale;
+        const treeHeight = treeRect.height / scale;
+
+        offsetX = (containerRect.width - treeWidth * scale) / 2;
+        offsetY = 20; // Small top margin
+
+        updateTransform();
     }
 
     /**
