@@ -11,10 +11,11 @@
     let isDragging = false;
     let lastX = 0;
     let lastY = 0;
+    let currentTab = 'tree';
 
     // DOM Elements
     let treeContainer = null;
-    let canvasContainer = null;
+    let treeContent = null;
     let loadingMask = null;
 
     /**
@@ -23,13 +24,15 @@
     function init() {
         // Get DOM elements
         treeContainer = document.getElementById('treeContainer');
-        canvasContainer = document.getElementById('canvasContainer');
         loadingMask = document.getElementById('loadingMask');
 
         // Initialize modal
         if (typeof Modal !== 'undefined') {
             Modal.init();
         }
+
+        // Setup tabs
+        setupTabs();
 
         // Load and render tree
         loadTree();
@@ -38,6 +41,43 @@
         setupZoomControls();
         setupPanZoom();
         setupSearch();
+    }
+
+    /**
+     * Setup tab navigation
+     */
+    function setupTabs() {
+        const tabButtons = document.querySelectorAll('.tab-btn');
+
+        tabButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+                switchTab(tabId);
+            });
+        });
+    }
+
+    /**
+     * Switch to a different tab
+     * @param {string} tabId - Tab identifier
+     */
+    function switchTab(tabId) {
+        // Update button states
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tab === tabId);
+        });
+
+        // Update content visibility
+        document.querySelectorAll('.tab-content').forEach(content => {
+            content.classList.toggle('active', content.id === `tab-${tabId}`);
+        });
+
+        currentTab = tabId;
+
+        // Reinitialize tree if switching to tree tab
+        if (tabId === 'tree' && treeContent) {
+            updateTransform();
+        }
     }
 
     /**
@@ -50,11 +90,16 @@
             return;
         }
 
+        // Create tree content wrapper
+        treeContent = document.createElement('div');
+        treeContent.className = 'tree-content';
+        treeContainer.appendChild(treeContent);
+
         // Build tree structure
         treeData = TreeRenderer.buildTree(familyList);
 
         // Render tree
-        TreeRenderer.renderTree(treeData, treeContainer, onNodeClick);
+        TreeRenderer.renderTree(treeData, treeContent, onNodeClick);
 
         // Apply initial transform
         updateTransform();
@@ -100,34 +145,36 @@
      */
     function setupPanZoom() {
         // Mouse events
-        canvasContainer.addEventListener('mousedown', onMouseDown);
+        treeContainer.addEventListener('mousedown', onMouseDown);
         document.addEventListener('mousemove', onMouseMove);
         document.addEventListener('mouseup', onMouseUp);
 
         // Wheel zoom
-        canvasContainer.addEventListener('wheel', onWheel, { passive: false });
+        treeContainer.addEventListener('wheel', onWheel, { passive: false });
 
         // Touch events
-        canvasContainer.addEventListener('touchstart', onTouchStart, { passive: false });
-        canvasContainer.addEventListener('touchmove', onTouchMove, { passive: false });
-        canvasContainer.addEventListener('touchend', onTouchEnd);
+        treeContainer.addEventListener('touchstart', onTouchStart, { passive: false });
+        treeContainer.addEventListener('touchmove', onTouchMove, { passive: false });
+        treeContainer.addEventListener('touchend', onTouchEnd);
     }
 
     /**
      * Mouse down handler
      */
     function onMouseDown(e) {
+        if (currentTab !== 'tree') return;
+
         isDragging = true;
         lastX = e.clientX;
         lastY = e.clientY;
-        treeContainer.style.cursor = 'grabbing';
+        treeContent.style.cursor = 'grabbing';
     }
 
     /**
      * Mouse move handler
      */
     function onMouseMove(e) {
-        if (!isDragging) return;
+        if (!isDragging || currentTab !== 'tree') return;
 
         const dx = e.clientX - lastX;
         const dy = e.clientY - lastY;
@@ -146,20 +193,24 @@
      */
     function onMouseUp() {
         isDragging = false;
-        treeContainer.style.cursor = 'grab';
+        if (treeContent) {
+            treeContent.style.cursor = 'grab';
+        }
     }
 
     /**
      * Wheel handler for zoom
      */
     function onWheel(e) {
+        if (currentTab !== 'tree') return;
+
         e.preventDefault();
 
         const delta = e.deltaY > 0 ? -0.1 : 0.1;
         const newScale = Math.max(0.3, Math.min(2, scale + delta));
 
         // Zoom towards cursor position
-        const rect = canvasContainer.getBoundingClientRect();
+        const rect = treeContainer.getBoundingClientRect();
         const x = e.clientX - rect.left;
         const y = e.clientY - rect.top;
 
@@ -180,6 +231,8 @@
      * Touch start handler
      */
     function onTouchStart(e) {
+        if (currentTab !== 'tree') return;
+
         if (e.touches.length === 1) {
             isDragging = true;
             lastTouchX = e.touches[0].clientX;
@@ -194,6 +247,8 @@
      * Touch move handler
      */
     function onTouchMove(e) {
+        if (currentTab !== 'tree') return;
+
         e.preventDefault();
 
         if (e.touches.length === 1 && isDragging) {
@@ -236,8 +291,8 @@
      * Update transform
      */
     function updateTransform() {
-        if (treeContainer) {
-            treeContainer.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+        if (treeContent) {
+            treeContent.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
         }
     }
 
@@ -270,6 +325,9 @@
 
         if (!name || !treeData) return;
 
+        // Switch to tree tab first
+        switchTab('tree');
+
         const found = TreeRenderer.findNodeByName(treeData, name);
 
         if (found) {
@@ -289,9 +347,9 @@
      */
     function centerOnNode(nodeId) {
         const nodeElement = document.querySelector(`[data-id="${nodeId}"]`);
-        if (!nodeElement) return;
+        if (!nodeElement || !treeContainer) return;
 
-        const containerRect = canvasContainer.getBoundingClientRect();
+        const containerRect = treeContainer.getBoundingClientRect();
         const nodeRect = nodeElement.getBoundingClientRect();
 
         // Calculate center position

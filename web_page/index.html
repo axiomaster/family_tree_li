@@ -7,33 +7,142 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
-            <h1 class="title">李门家谱</h1>
-            <div class="zoom-controls">
-                <button class="zoom-btn" id="zoomOut">−</button>
-                <button class="zoom-btn" id="zoomIn">+</button>
+    <div class="app-container">
+        <!-- Top Header - 15% height -->
+        <header class="app-header">
+            <img src="images/bg.jpg" alt="李门家谱" class="header-image" onerror="this.style.display='none'">
+            <div class="header-fallback">
+                <h1>李门家谱</h1>
             </div>
         </header>
 
-        <!-- Search Bar -->
-        <div class="search-bar">
-            <input type="text" class="search-input" id="searchInput" placeholder="输入姓名查找">
-            <button class="search-btn" id="searchBtn">搜索</button>
-        </div>
+        <!-- Tabs Navigation - 5% height -->
+        <nav class="tabs-nav">
+            <button class="tab-btn active" data-tab="tree">查看家谱</button>
+            <button class="tab-btn" data-tab="edition1993">一九九三版家谱</button>
+            <button class="tab-btn" data-tab="edition2026">二零二六版家谱</button>
+            <button class="tab-btn" data-tab="history">李氏家族三百年</button>
+            <button class="tab-btn" data-tab="edit">编纂校正</button>
+        </nav>
 
-        <!-- Tree Container -->
-        <div class="canvas-container" id="canvasContainer">
-            <div class="tree-container" id="treeContainer">
-                <!-- Tree nodes will be rendered here -->
-            </div>
-        </div>
+        <!-- Content Area - 80% height -->
+        <main class="content-area">
+            <!-- Tab 1: 查看家谱 -->
+            <section class="tab-content active" id="tab-tree">
+                <div class="tree-toolbar">
+                    <div class="search-bar">
+                        <input type="text" class="search-input" id="searchInput" placeholder="输入姓名查找">
+                        <button class="search-btn" id="searchBtn">搜索</button>
+                    </div>
+                    <div class="zoom-controls">
+                        <button class="zoom-btn" id="zoomOut">−</button>
+                        <button class="zoom-btn" id="zoomIn">+</button>
+                    </div>
+                </div>
+                <div class="tree-container" id="treeContainer">
+                    <!-- Tree nodes will be rendered here -->
+                </div>
+                <div class="tree-tip">
+                    <span>拖拽平移，滚轮缩放，点击头像查看详情</span>
+                </div>
+            </section>
 
-        <!-- Bottom Tip -->
-        <div class="bottom-tip">
-            <span>拖拽平移，滚轮缩放，点击头像查看详情</span>
-        </div>
+            <!-- Tab 2: 一九九三版家谱 -->
+            <section class="tab-content" id="tab-edition1993">
+                <div class="page-content">
+                    <h2>一九九三版《李门家谱》</h2>
+                    <div class="document-viewer">
+                        <p>一九九三版家谱由李文毓先生编纂，是李氏家族首次系统整理的家谱文献。</p>
+                        <div class="placeholder-box">
+                            <p>📚 原版文档扫描件</p>
+                            <p class="hint">（请在此处添加扫描图片）</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 3: 二零二六版家谱 -->
+            <section class="tab-content" id="tab-edition2026">
+                <div class="page-content">
+                    <h2>二零二六版《李门家谱》</h2>
+                    <div class="document-viewer">
+                        <p>二零二六版家谱在1993版基础上进行了全面更新和补充，由李世明先生主持编纂。</p>
+                        <div class="features-list">
+                            <h3>新版特色</h3>
+                            <ul>
+                                <li>补充了近30年家族成员信息</li>
+                                <li>新增女性成员记录</li>
+                                <li>数字化保存，支持在线查阅</li>
+                                <li>提供微信小程序和网页版本</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 4: 李氏家族三百年 -->
+            <section class="tab-content" id="tab-history">
+                <div class="page-content">
+                    <h2>李氏家族三百年</h2>
+                    <div class="history-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">清代</div>
+                            <div class="timeline-content">
+                                <h3>家族起源</h3>
+                                <p>李氏家族在此地定居，世代繁衍。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">民国</div>
+                            <div class="timeline-content">
+                                <h3>近代发展</h3>
+                                <p>家族成员逐渐增多，分支扩展。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">1992年</div>
+                            <div class="timeline-content">
+                                <h3>首次修谱</h3>
+                                <p>李文毓先生主持编纂第一部《李门家谱》。</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">2026年</div>
+                            <div class="timeline-content">
+                                <h3>数字化升级</h3>
+                                <p>推出微信小程序和网页版家谱，实现数字化保存。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab 5: 编纂校正 -->
+            <section class="tab-content" id="tab-edit">
+                <div class="page-content">
+                    <h2>编纂校正</h2>
+                    <div class="edit-info">
+                        <div class="info-card">
+                            <h3>编纂说明</h3>
+                            <p>本家谱由家族成员共同维护，如有信息错误或遗漏，请联系管理员进行校正。</p>
+                        </div>
+                        <div class="info-card">
+                            <h3>联系信息</h3>
+                            <p>主编：李世明</p>
+                            <p>编纂年份：2026年</p>
+                        </div>
+                        <div class="info-card">
+                            <h3>校正须知</h3>
+                            <ul>
+                                <li>提供准确的姓名、生卒年月</li>
+                                <li>说明与家族的关系</li>
+                                <li>附上相关证明材料（如有）</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
 
         <!-- Member Detail Modal -->
         <div class="modal-mask" id="modalMask">

@@ -1,4 +1,4 @@
-/* Styles for Lee Family Tree (李门家谱) */
+/* Styles for Lee Family Tree (李门家谱) - 3-layer Layout */
 
 * {
     margin: 0;
@@ -13,86 +13,138 @@ html, body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
-.container {
+/* App Container */
+.app-container {
     width: 100vw;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
     background-color: #f8fafc;
+}
+
+/* ============================================
+   Top Header - 15% height
+   ============================================ */
+.app-header {
+    height: 15vh;
+    min-height: 80px;
+    max-height: 150px;
+    background: linear-gradient(135deg, #1e3a8a, #0f172a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
     overflow: hidden;
+}
+
+.header-image {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.header-fallback {
+    text-align: center;
+    color: #fbbf24;
+}
+
+.header-fallback h1 {
+    font-size: clamp(20px, 4vw, 36px);
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* ============================================
+   Tabs Navigation - 5% height
+   ============================================ */
+.tabs-nav {
+    height: 5vh;
+    min-height: 40px;
+    max-height: 60px;
+    display: flex;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.tabs-nav::-webkit-scrollbar {
+    display: none;
+}
+
+.tab-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    font-size: clamp(11px, 1.5vw, 14px);
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.tab-btn:hover {
+    background: #f1f5f9;
+    color: #334155;
+}
+
+.tab-btn.active {
+    color: #1e3a8a;
+    border-bottom-color: #1e3a8a;
+    background: #f8fafc;
+}
+
+/* ============================================
+   Content Area - 80% height
+   ============================================ */
+.content-area {
+    flex: 1;
+    height: 80vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.tab-content {
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.tab-content.active {
     display: flex;
     flex-direction: column;
 }
 
-/* Header */
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 56px;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
+/* ============================================
+   Tree Tab Content
+   ============================================ */
+.tree-toolbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px;
-    border-bottom: 1px solid #e2e8f0;
-    z-index: 100;
-}
-
-.title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #92400e;
-}
-
-.zoom-controls {
-    display: flex;
-    gap: 8px;
-}
-
-.zoom-btn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f1f5f9;
-    border: none;
-    border-radius: 50%;
-    font-size: 20px;
-    color: #475569;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.zoom-btn:hover {
-    background: #e2e8f0;
-}
-
-.zoom-btn:active {
-    background: #cbd5e1;
-}
-
-/* Search Bar */
-.search-bar {
-    position: fixed;
-    top: 56px;
-    left: 0;
-    right: 0;
     padding: 8px 16px;
     background: white;
     border-bottom: 1px solid #e2e8f0;
+    gap: 12px;
+}
+
+.search-bar {
     display: flex;
     gap: 8px;
-    z-index: 90;
+    flex: 1;
+    max-width: 300px;
 }
 
 .search-input {
     flex: 1;
-    padding: 8px 12px;
+    padding: 6px 12px;
     border: 1px solid #e2e8f0;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 14px;
     outline: none;
 }
@@ -102,11 +154,11 @@ html, body {
 }
 
 .search-btn {
-    padding: 8px 16px;
+    padding: 6px 12px;
     background: #3b82f6;
     color: white;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 14px;
     cursor: pointer;
     transition: background 0.2s;
@@ -116,37 +168,262 @@ html, body {
     background: #2563eb;
 }
 
-.search-btn:active {
-    background: #1d4ed8;
+.zoom-controls {
+    display: flex;
+    gap: 6px;
 }
 
-/* Canvas Container */
-.canvas-container {
+.zoom-btn {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    border: none;
+    border-radius: 50%;
+    font-size: 18px;
+    color: #475569;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.zoom-btn:hover {
+    background: #e2e8f0;
+}
+
+/* Tree Container */
+.tree-container {
     flex: 1;
     overflow: hidden;
     position: relative;
-    margin-top: 104px;
+    background: #f8fafc;
 }
 
-.tree-container {
+.tree-container .tree-content {
     transform-origin: top center;
     cursor: grab;
     padding: 20px;
     min-width: max-content;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.tree-container:active {
+.tree-container .tree-content:active {
     cursor: grabbing;
 }
 
-/* Node Container */
+.tree-tip {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    padding: 6px 12px;
+    border-radius: 16px;
+}
+
+.tree-tip span {
+    color: white;
+    font-size: 11px;
+}
+
+/* ============================================
+   Page Content (for other tabs)
+   ============================================ */
+.page-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    background: white;
+}
+
+.page-content h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e293b;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* Document Viewer */
+.document-viewer {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.document-viewer p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: #334155;
+    margin-bottom: 16px;
+}
+
+.placeholder-box {
+    background: #e2e8f0;
+    border-radius: 8px;
+    padding: 40px;
+    text-align: center;
+    color: #64748b;
+}
+
+.placeholder-box p:first-child {
+    font-size: 24px;
+    margin-bottom: 8px;
+}
+
+.placeholder-box .hint {
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+/* Features List */
+.features-list {
+    margin-top: 20px;
+}
+
+.features-list h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+.features-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.features-list li {
+    padding: 10px 0 10px 24px;
+    position: relative;
+    font-size: 14px;
+    color: #475569;
+}
+
+.features-list li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #22c55e;
+    font-weight: bold;
+}
+
+/* History Timeline */
+.history-timeline {
+    position: relative;
+    padding-left: 24px;
+}
+
+.history-timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e2e8f0;
+}
+
+.timeline-item {
+    position: relative;
+    padding-bottom: 24px;
+    padding-left: 24px;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -20px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #1e3a8a;
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px #1e3a8a;
+}
+
+.timeline-date {
+    font-size: 12px;
+    font-weight: 600;
+    color: #1e3a8a;
+    margin-bottom: 4px;
+}
+
+.timeline-content h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 4px;
+}
+
+.timeline-content p {
+    font-size: 14px;
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* Edit Info Cards */
+.edit-info {
+    display: grid;
+    gap: 16px;
+}
+
+.info-card {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid #e2e8f0;
+}
+
+.info-card h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 12px;
+}
+
+.info-card p {
+    font-size: 14px;
+    color: #475569;
+    line-height: 1.6;
+    margin-bottom: 8px;
+}
+
+.info-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.info-card li {
+    padding: 6px 0 6px 16px;
+    position: relative;
+    font-size: 14px;
+    color: #475569;
+}
+
+.info-card li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #1e3a8a;
+}
+
+/* ============================================
+   Tree Node Styles
+   ============================================ */
 .node-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* Node Content */
 .node-content {
     position: relative;
     display: flex;
@@ -157,7 +434,6 @@ html, body {
     z-index: 2;
 }
 
-/* Avatar */
 .avatar {
     width: 64px;
     height: 64px;
@@ -177,7 +453,6 @@ html, body {
 
 .avatar:active {
     transform: scale(0.95);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .avatar-founder {
@@ -193,10 +468,6 @@ html, body {
     background: linear-gradient(135deg, #f472b6, #db2777);
 }
 
-.avatar-wife {
-    background: linear-gradient(135deg, #a78bfa, #7c3aed);
-}
-
 .avatar-text {
     color: white;
     font-size: 28px;
@@ -208,7 +479,6 @@ html, body {
     color: #fbbf24;
 }
 
-/* Node Label */
 .node-label {
     margin-top: 8px;
     background: white;
@@ -224,7 +494,6 @@ html, body {
     color: #0f172a;
 }
 
-/* Children Container */
 .children-container {
     display: flex;
     flex-direction: row;
@@ -262,7 +531,6 @@ html, body {
     transform: translateX(-50%);
 }
 
-/* Horizontal connecting lines */
 .child-wrapper::before {
     content: '';
     position: absolute;
@@ -296,54 +564,13 @@ html, body {
     display: none;
 }
 
-/* Couple Layout */
-.couple-container {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 0;
-}
-
-.person-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    transition: transform 0.1s;
-}
-
-.person-group:hover {
-    transform: scale(1.02);
-}
-
-.person-group:active {
-    transform: scale(0.98);
-}
-
-/* Highlight for search results */
 .highlighted .avatar {
     box-shadow: 0 0 0 4px #fbbf24, 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Bottom Tip */
-.bottom-tip {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    padding: 8px 16px;
-    border-radius: 20px;
-    z-index: 50;
-}
-
-.bottom-tip span {
-    color: white;
-    font-size: 12px;
-}
-
-/* Modal */
+/* ============================================
+   Modal
+   ============================================ */
 .modal-mask {
     position: fixed;
     top: 0;
@@ -512,7 +739,9 @@ html, body {
     font-style: italic;
 }
 
-/* Loading Mask */
+/* ============================================
+   Loading Mask
+   ============================================ */
 .loading-mask {
     position: fixed;
     top: 0;
@@ -535,7 +764,9 @@ html, body {
     font-size: 16px;
 }
 
-/* Responsive */
+/* ============================================
+   Responsive
+   ============================================ */
 @media (min-width: 768px) {
     .modal-mask {
         align-items: center;
@@ -545,9 +776,19 @@ html, body {
         border-radius: 24px;
         margin: 16px;
     }
+
+    .edit-info {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media (max-width: 480px) {
+    .tab-btn {
+        min-width: 70px;
+        padding: 8px 6px;
+        font-size: 11px;
+    }
+
     .info-grid {
         grid-template-columns: 1fr 1fr;
     }
@@ -559,5 +800,19 @@ html, body {
 
     .avatar-text {
         font-size: 24px;
+    }
+
+    .tree-toolbar {
+        flex-wrap: wrap;
+    }
+
+    .search-bar {
+        max-width: none;
+        order: 1;
+        width: 100%;
+    }
+
+    .zoom-controls {
+        order: 2;
     }
 }
