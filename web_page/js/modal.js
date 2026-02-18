@@ -106,7 +106,7 @@ const Modal = {
      * @returns {string} Avatar class
      */
     getAvatarClass(node) {
-        if (node.relation === '老屋' || node.relation === '二屋' || node.relation === '三屋') {
+        if (node.relation === '老屋' || node.relation === '二屋' || node.relation === '三屋' || node.relation === '结义老四') {
             return 'avatar-founder';
         }
         if (node.gender === '女') {

@@ -45,7 +45,7 @@ const TreeRenderer = {
 
         // Determine avatar class based on gender and relation
         let avatarClass = 'avatar';
-        if (node.relation === '老屋' || node.relation === '二屋' || node.relation === '三屋') {
+        if (node.relation === '老屋' || node.relation === '二屋' || node.relation === '三屋' || node.relation === '结义老四') {
             avatarClass += ' avatar-founder';
         } else if (node.gender === '女') {
             avatarClass += ' avatar-female';
